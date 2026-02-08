@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Bowl LX Pick'em 🏈</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #002244 0%, #69BE28 50%, #C60C30 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #002244;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .betting-line {
+            text-align: center;
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+            color: #333;
+        }
+        
+        .betting-line strong {
+            color: #002244;
+        }
+        
+        .betting-explainer {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 8px;
+            font-style: italic;
+        }
+        
+        .bad-bunny {
+            text-align: center;
+            font-size: 0.9em;
+            color: #FF6B9D;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+        
+        .bonus-hunt {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 3px dashed #FF6B00;
+        }
+        
+        .bonus-hunt-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .bonus-hunt-text {
+            color: #444;
+            font-size: 1em;
+            line-height: 1.5;
+        }
+        
+        .prize-info {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+            border: 2px solid #4a00e0;
+        }
+        
+        .prize-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 6px;
+        }
+        
+        .prize-text {
+            color: white;
+            font-size: 0.95em;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 1.05em;
+        }
+        
+        .prop-description {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #002244;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .radio-option {
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .radio-option input[type="radio"] {
+            margin-right: 8px;
+        }
+        
+        .radio-option label {
+            display: inline;
+            font-weight: normal;
+            cursor: pointer;
+        }
+        
+        .tiebreaker {
+            background: #fff9e6;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px dashed #ffc107;
+        }
+        
+        .tiebreaker-label {
+            color: #ff6f00;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #002244 0%, #69BE28 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .success-message {
+            display: none;
+            background: #4CAF50;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.1em;
+        }
+        
+        .error-message {
+            display: none;
+            background: #f44336;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .sf-footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏈 Super Bowl LX Pick'em</h1>
+        <div class="subtitle">Seahawks vs Patriots • San Francisco</div>
+        
+        <div class="betting-line">
+            <strong>Seahawks -4.5</strong> favorites | <strong>Over/Under: 45.5</strong> total points
+            <div class="betting-explainer">
+                Seahawks favored by 4.5 = SEA expected to win by 4-5 points Over/Under = predicted combined score
+            </div>
+        </div>
+        
+        <div class="bad-bunny">🐰 Bad Bunny Halftime Show 🎤</div>
+        
+        <!-- PRIZE INFO -->
+        <div class="prize-info">
+            <div class="prize-title">🏆 MYSTERY PRIZE AWAITS 🏆</div>
+            <div class="prize-text">
+                Each question is worth 1 point. Whoever scores the most points wins a mystery prize!
+            </div>
+        </div>
+        
+        <form id="pickemForm">
+            <div class="form-group">
+                <label for="name">Your Name *</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            
+            <!-- PROP 1: SPREAD -->
+            <div class="form-group">
+                <label>Will the Seahawks win by 5+ points?</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="spread_yes" name="spread" value="Yes" required>
+                        <label for="spread_yes">Yes</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="spread_no" name="spread" value="No">
+                        <label for="spread_no">No</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PROP 2: OVER/UNDER -->
+            <div class="form-group">
+                <label>Will the total score be over or under 45.5 points?</label>
+                <div class="prop-description">Combined score of both teams</div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="total_over" name="total" value="Over" required>
+                        <label for="total_over">Over 45.5</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="total_under" name="total" value="Under">
+                        <label for="total_under">Under 45.5</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PROP 3: Jersey Number -->
+            <div class="form-group">
+                <label>Will the jersey number of the player who scores the first touchdown be over or under 11.5?</label>
+                <div class="prop-description">For QBs, only rushing TDs count</div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="prop7_yes" name="prop7" value="Yes" required>
+                        <label for="prop7_yes">12 or higher</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="prop7_no" name="prop7" value="No">
+                        <label for="prop7_no">11 or lower</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PROP 4: JSN TD -->
+            <div class="form-group">
+                <label>Will JSN score a touchdown?</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="coin_heads" name="coin_toss" value="Heads" required>
+                        <label for="coin_heads">Yes</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="coin_tails" name="coin_toss" value="Tails">
+                        <label for="coin_tails">No</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PROP 5: BAD BUNNY FIRST SONG -->
+            <div class="form-group">
+                <label>Will "Tití Me Preguntó" be Bad Bunny's first song?</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="titi_yes" name="titi_song" value="Yes" required>
+                        <label for="titi_yes">Yes</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="titi_no" name="titi_song" value="No">
+                        <label for="titi_no">No</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PROP 6: KAROL G APPEARANCE -->
+            <div class="form-group">
+                <label>Will Bad Bunny bring Karol G onstage?</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="karol_yes" name="karol_g" value="Yes" required>
+                        <label for="karol_yes">Yes</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="karol_no" name="karol_g" value="No">
+                        <label for="karol_no">No</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PROP 7: Last TOUCHDOWN -->
+            <div class="form-group">
+                <label>Who scores the last touchdown of the game? (Again for QBs, only rushing TDs count)</label>
+                <select id="first_td" name="first_td" required>
+                    <option value="">Select a player...</option>
+                    <option value="Sam Darnold">Sam Darnold #14 (QB - SEA)</option>
+                    <option value="Kenneth Walker III">Kenneth Walker III #9 (RB - SEA)</option>
+                    <option value="Rashid Shaheed">Rashid Shaheed #22 (WR - SEA)</option>
+                    <option value="Cooper Kupp">Cooper Kupp #10 (WR - SEA)</option>
+                    <option value="Jaxon Smith-Njigba">Jaxon Smith-Njigba #11 (WR - SEA)</option>
+                    <option value="Drake Maye">Drake Maye #10 (QB - NE)</option>
+                    <option value="Rhamondre Stevenson">Rhamondre Stevenson #38 (RB - NE)</option>
+                    <option value="Stefon Diggs">Stefon Diggs #8 (WR - NE)</option>
+                    <option value="Hunter Henry">Hunter Henry #85 (TE - NE)</option>
+                    <option value="Other Player">Other Player</option>
+                </select>
+            </div>
+            
+            <!-- PROP 8: Super Bowl MVP -->
+            <div class="form-group">
+                <label>Who wins Super Bowl MVP?</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="prop8_yes" name="prop8" value="Sam Darnold" required>
+                        <label for="prop8_yes">Sam Darnold</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="prop8_no" name="prop8" value="Other Player">
+                        <label for="prop8_no">Other Player</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- TIEBREAKER -->
+            <div class="form-group tiebreaker">
+                <div class="tiebreaker-label">⚡ TIEBREAKER ⚡</div>
+                <label for="tiebreaker">What will be the exact combined score of the game?</label>
+                <div class="prop-description">This is only used if multiple people tie for first place</div>
+                <input type="number" id="tiebreaker" name="tiebreaker" placeholder="e.g. 45" min="0" max="150" required>
+            </div>
+            
+            <!-- BONUS DUCK HUNT -->
+            <div class="bonus-hunt">
+                <div class="bonus-hunt-title">🦆 BONUS CHALLENGE 🦆</div>
+                <div class="bonus-hunt-text">
+                    Hidden around the apartment are rubber duckies!<br>
+                    Find one for an extra point on your score. Good luck hunting! 🔍
+                </div>
+            </div>
+            
+            <button type="submit" id="submitBtn">Submit Your Picks 🎯</button>
+            
+            <div class="success-message" id="successMessage">
+                ✅ Your picks are in! Good luck!
+            </div>
+            
+            <div class="error-message" id="errorMessage">
+                ❌ Something went wrong. Please try again or contact the host.
+            </div>
+        </form>
+        
+        <div class="sf-footer">
+            🌉 Hosted in SF with ❤️
+        </div>
+    </div>
+    
+    <script>
+        // IMPORTANT: Replace this URL with your Google Apps Script Web App URL
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhcpNf3foMlo8tIFTPjhn48itoDYFKdMSnJzjAQJF5ii3JTdWv7X6eXB7kdOT2XRjf/exec';
+        
+        document.getElementById('pickemForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const successMsg = document.getElementById('successMessage');
+            const errorMsg = document.getElementById('errorMessage');
+            
+            // Disable button and show loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+            successMsg.style.display = 'none';
+            errorMsg.style.display = 'none';
+            
+            // Gather form data
+            const formData = {
+                timestamp: new Date().toISOString(),
+                name: document.getElementById('name').value,
+                spread: document.querySelector('input[name="spread"]:checked').value,
+                total: document.querySelector('input[name="total"]:checked').value,
+                first_td: document.getElementById('first_td').value,
+                coin_toss: document.querySelector('input[name="coin_toss"]:checked').value,
+                titi_song: document.querySelector('input[name="titi_song"]:checked').value,
+                karol_g: document.querySelector('input[name="karol_g"]:checked').value,
+                prop7: document.querySelector('input[name="prop7"]:checked').value,
+                prop8: document.querySelector('input[name="prop8"]:checked').value,
+                tiebreaker: document.getElementById('tiebreaker').value
+            };
+            
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                // With no-cors, we can't read the response, so we assume success
+                successMsg.style.display = 'block';
+                document.getElementById('pickemForm').reset();
+                submitBtn.textContent = 'Submit Your Picks 🎯';
+                submitBtn.disabled = false;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                errorMsg.style.display = 'block';
+                submitBtn.textContent = 'Submit Your Picks 🎯';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
